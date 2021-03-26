@@ -136,11 +136,8 @@ class VAEXperiment(pl.LightningModule):
     def train_dataloader(self):
         transform = self.data_transforms()
 
-        if self.params['dataset'] == 'celeba':
-            dataset = CelebA(root = self.params['data_path'],
-                             split = "train",
-                             transform=transform,
-                             download=False)
+        if self.params['dataset'] == 'coinrun':
+            dataset = CoinrunDataset(transform)
         else:
             raise ValueError('Undefined dataset type')
 
@@ -154,19 +151,10 @@ class VAEXperiment(pl.LightningModule):
     def val_dataloader(self):
         transform = self.data_transforms()
 
-        if self.params['dataset'] == 'celeba':
-            self.sample_dataloader =  DataLoader(CelebA(root = self.params['data_path'],
-                                                        split = "test",
-                                                        transform=transform,
-                                                        download=False),
-                                                 batch_size= 144,
-                                                 shuffle = True,
-                                                 drop_last=True)
-            self.num_val_imgs = len(self.sample_dataloader)
-        else:
-            raise ValueError('Undefined dataset type')
+        raise ValueError('Undefined dataset type')
 
         return self.sample_dataloader
+
 
     def data_transforms(self):
 
@@ -183,3 +171,41 @@ class VAEXperiment(pl.LightningModule):
             raise ValueError('Undefined dataset type')
         return transform
 
+
+class CoinrunDataset(Dataset):
+    """Face Landmarks dataset."""
+
+    def __init__(self, transform=None):
+        """
+        Args:
+            csv_file (string): Path to the csv file with annotations.
+            root_dir (string): Directory with all the images.
+            transform (callable, optional): Optional transform to be applied
+                on a sample.
+        """
+        self.transform = transform
+
+    def __len__(self):
+        return 144*499
+
+    def __getitem__(self, idx):
+
+        file_idx = str((idx - (idx % 144)) / 144)+".npy"
+
+        sample = np.load(file_idx)['arr_0'][idx % 144]
+
+        # if torch.is_tensor(idx):
+        #     idx = idx.tolist()
+        #
+        # img_name = os.path.join(self.root_dir,
+        #                         self.landmarks_frame.iloc[idx, 0])
+        # image = io.imread(img_name)
+        # landmarks = self.landmarks_frame.iloc[idx, 1:]
+        # landmarks = np.array([landmarks])
+        # landmarks = landmarks.astype('float').reshape(-1, 2)
+        # sample = {'image': image, 'landmarks': landmarks}
+
+        if self.transform:
+            sample = self.transform(sample)
+
+        return sample
