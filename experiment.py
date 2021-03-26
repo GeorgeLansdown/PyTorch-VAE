@@ -8,7 +8,8 @@ import pytorch_lightning as pl
 from torchvision import transforms
 import torchvision.utils as vutils
 from torchvision.datasets import CelebA
-from torch.utils.data import DataLoader
+from torch.utils.data import DataLoader, Dataset
+
 
 
 class VAEXperiment(pl.LightningModule):
