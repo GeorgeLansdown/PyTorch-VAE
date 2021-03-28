@@ -44,9 +44,10 @@ class BetaVAE(BaseVAE):
             in_channels = h_dim
 
         self.encoder = nn.Sequential(*modules)
+
+
         self.fc_mu = nn.Linear(hidden_dims[-1]*4, latent_dim)
         self.fc_var = nn.Linear(hidden_dims[-1]*4, latent_dim)
-
 
         # Build Decoder
         modules = []
@@ -93,8 +94,9 @@ class BetaVAE(BaseVAE):
         :return: (Tensor) List of latent codes
         """
         result = self.encoder(input)
+        print(result.shape)
         result = torch.flatten(result, start_dim=1)
-
+        print(result.shape)
         # Split the result into mu and var components
         # of the latent Gaussian distribution
         mu = self.fc_mu(result)
