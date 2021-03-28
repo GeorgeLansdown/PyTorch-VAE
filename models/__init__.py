@@ -7,7 +7,6 @@ from .cvae import *
 from .hvae import *
 from .vampvae import *
 from .iwae import *
-from .dfcvae import *
 from .mssim_vae import MSSIMVAE
 from .fvae import *
 from .cat_vae import *
@@ -35,7 +34,6 @@ vae_models = {'HVAE':HVAE,
               'SWAE':SWAE,
               'MIWAE':MIWAE,
               'VQVAE':VQVAE,
-              'DFCVAE':DFCVAE,
               'DIPVAE':DIPVAE,
               'BetaVAE':BetaVAE,
               'InfoVAE':InfoVAE,
