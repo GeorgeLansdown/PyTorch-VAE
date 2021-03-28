@@ -107,7 +107,7 @@ class BetaVAE(BaseVAE):
 
     def decode(self, z: Tensor) -> Tensor:
         result = self.decoder_input(z)
-        result = result.view(-1, 512, 2, 2)
+        result = result.view(-1, 512, 16, 16)
         result = self.decoder(result)
         result = self.final_layer(result)
         return result
