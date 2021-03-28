@@ -46,13 +46,13 @@ class BetaVAE(BaseVAE):
         self.encoder = nn.Sequential(*modules)
 
 
-        self.fc_mu = nn.Linear(131072, latent_dim)#hidden_dims[-1]*4, latent_dim)
-        self.fc_var = nn.Linear(131072, latent_dim)#hidden_dims[-1]*4, latent_dim)
+        self.fc_mu = nn.Linear(hidden_dims[-1]*4, latent_dim) #2048, 128
+        self.fc_var = nn.Linear(hidden_dims[-1]*4, latent_dim)
 
         # Build Decoder
         modules = []
 
-        self.decoder_input = nn.Linear(latent_dim, 131072)#hidden_dims[-1] * 4)
+        self.decoder_input = nn.Linear(latent_dim, hidden_dims[-1] * 4)
 
         hidden_dims.reverse()
 
@@ -93,6 +93,7 @@ class BetaVAE(BaseVAE):
         :param input: (Tensor) Input tensor to encoder [N x C x H x W]
         :return: (Tensor) List of latent codes
         """
+        print(result.shape)
         result = self.encoder(input)
         print(result.shape)
         result = torch.flatten(result, start_dim=1)
