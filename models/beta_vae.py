@@ -93,7 +93,7 @@ class BetaVAE(BaseVAE):
         :param input: (Tensor) Input tensor to encoder [N x C x H x W]
         :return: (Tensor) List of latent codes
         """
-        print(result.shape)
+        print(input.shape)
         result = self.encoder(input)
         print(result.shape)
         result = torch.flatten(result, start_dim=1)
