@@ -140,7 +140,7 @@ class BetaVAE(BaseVAE):
         # print("Entered beta-vae forward")
         mu, log_var = self.encode(input)
         z = self.reparameterize(mu, log_var)
-        print("z dimensionality: %s " % z.shape)
+        print("z dimensionality: %s " % str(z.shape))
         # print("Exiting beta-vae forward")
         return  [self.decode(z), input, mu, log_var]
 
