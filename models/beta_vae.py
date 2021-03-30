@@ -137,8 +137,10 @@ class BetaVAE(BaseVAE):
         return eps * std + mu
 
     def forward(self, input: Tensor, **kwargs) -> Tensor:
+        print("Entered beta-vae forward")
         mu, log_var = self.encode(input)
         z = self.reparameterize(mu, log_var)
+        print("Exiting beta-vae forward")
         return  [self.decode(z), input, mu, log_var]
 
     def loss_function(self,
