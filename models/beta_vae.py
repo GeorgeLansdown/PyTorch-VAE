@@ -5,6 +5,15 @@ from torch.nn import functional as F
 from .types_ import *
 
 
+class PrintLayer(nn.Module):
+    def __init__(self):
+        super(PrintLayer, self).__init__()
+
+    def forward(self, x):
+        # Do your print / debug stuff here
+        print(x)
+        return x
+
 class BetaVAE(BaseVAE):
 
     num_iter = 0 # Global static variable to keep track of iterations
@@ -39,7 +48,9 @@ class BetaVAE(BaseVAE):
                     nn.Conv2d(in_channels, out_channels=h_dim,
                               kernel_size= 3, stride= 2, padding  = 1),
                     nn.BatchNorm2d(h_dim),
-                    nn.LeakyReLU())
+                    PrintLayer(),
+                    nn.LeakyReLU(),
+                    PrintLayer())
             )
             in_channels = h_dim
 
@@ -66,7 +77,9 @@ class BetaVAE(BaseVAE):
                                        padding=1,
                                        output_padding=1),
                     nn.BatchNorm2d(hidden_dims[i + 1]),
-                    nn.LeakyReLU())
+                    PrintLayer(),
+                    nn.LeakyReLU(),
+                    PrintLayer())
             )
 
         self.decoder = nn.Sequential(*modules)
