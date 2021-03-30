@@ -48,9 +48,9 @@ class BetaVAE(BaseVAE):
                     nn.Conv2d(in_channels, out_channels=h_dim,
                               kernel_size= 3, stride= 2, padding  = 1),
                     nn.BatchNorm2d(h_dim),
-                    PrintLayer(),
-                    nn.LeakyReLU(),
-                    PrintLayer())
+                    #PrintLayer(),
+                    nn.LeakyReLU())#,
+                    #PrintLayer())
             )
             in_channels = h_dim
 
@@ -77,9 +77,9 @@ class BetaVAE(BaseVAE):
                                        padding=1,
                                        output_padding=1),
                     nn.BatchNorm2d(hidden_dims[i + 1]),
-                    PrintLayer(),
-                    nn.LeakyReLU(),
-                    PrintLayer())
+                    #PrintLayer(),
+                    nn.LeakyReLU())#,
+                    #PrintLayer())
             )
 
         self.decoder = nn.Sequential(*modules)
