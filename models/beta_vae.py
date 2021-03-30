@@ -104,11 +104,8 @@ class BetaVAE(BaseVAE):
         :param input: (Tensor) Input tensor to encoder [N x C x H x W]
         :return: (Tensor) List of latent codes
         """
-        print(input.shape)
         result = self.encoder(input)
-        print(result.shape)
         result = torch.flatten(result, start_dim=1)
-        print(result.shape)
         # Split the result into mu and var components
         # of the latent Gaussian distribution
         mu = self.fc_mu(result)
@@ -121,6 +118,7 @@ class BetaVAE(BaseVAE):
         result = result.view(-1, 512, 16, 16)
         result = self.decoder(result)
         result = self.final_layer(result)
+        print(result.shape)
         return result
 
     def reparameterize(self, mu: Tensor, logvar: Tensor) -> Tensor:
@@ -146,12 +144,13 @@ class BetaVAE(BaseVAE):
         self.num_iter += 1
         recons = args[0]
         input = args[1]
-        print((recons, input))
+        # print((recons, input))
         mu = args[2]
         log_var = args[3]
         kld_weight = kwargs['M_N']  # Account for the minibatch samples from the dataset
 
         recons_loss =F.mse_loss(recons, input)
+        print("Recons loss: %s" % recons_loss)
 
         kld_loss = torch.mean(-0.5 * torch.sum(1 + log_var - mu ** 2 - log_var.exp(), dim = 1), dim = 0)
 
