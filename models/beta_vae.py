@@ -106,6 +106,7 @@ class BetaVAE(BaseVAE):
         """
         result = self.encoder(input)
         result = torch.flatten(result, start_dim=1)
+        print(result)
         # Split the result into mu and var components
         # of the latent Gaussian distribution
         mu = self.fc_mu(result)
@@ -153,9 +154,9 @@ class BetaVAE(BaseVAE):
 
 
         kld_loss = torch.mean(-0.5 * torch.sum(1 + log_var - mu ** 2 - log_var.exp(), dim = 1), dim = 0)
-        print("KLD loss: %s" % kld_loss)
-        print("log_var: %s" % log_var)
-        print("mu: %s" % mu)
+        # print("KLD loss: %s" % kld_loss)
+        # print("log_var: %s" % log_var)
+        # print("mu: %s" % mu)
 
         if self.loss_type == 'H': # https://openreview.net/forum?id=Sy2fzU9gl
             loss = recons_loss + self.beta * kld_weight * kld_loss
