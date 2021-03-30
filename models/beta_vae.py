@@ -118,7 +118,7 @@ class BetaVAE(BaseVAE):
         result = result.view(-1, 512, 16, 16)
         result = self.decoder(result)
         result = self.final_layer(result)
-        print(result.shape)
+        # print(result.shape)
         return result
 
     def reparameterize(self, mu: Tensor, logvar: Tensor) -> Tensor:
@@ -150,9 +150,12 @@ class BetaVAE(BaseVAE):
         kld_weight = kwargs['M_N']  # Account for the minibatch samples from the dataset
 
         recons_loss =F.mse_loss(recons, input)
-        print("Recons loss: %s" % recons_loss)
+
 
         kld_loss = torch.mean(-0.5 * torch.sum(1 + log_var - mu ** 2 - log_var.exp(), dim = 1), dim = 0)
+        print("KLD loss: %s" % kld_loss)
+        print("log_var: %s" % log_var)
+        print("mu: %s" % mu)
 
         if self.loss_type == 'H': # https://openreview.net/forum?id=Sy2fzU9gl
             loss = recons_loss + self.beta * kld_weight * kld_loss
