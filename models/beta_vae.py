@@ -106,10 +106,12 @@ class BetaVAE(BaseVAE):
         """
         result = self.encoder(input)
         result = torch.flatten(result, start_dim=1)
-        print(result)
+        # print(result)
         # Split the result into mu and var components
         # of the latent Gaussian distribution
+
         mu = self.fc_mu(result)
+        print(self.fc_var.parmameters)
         log_var = self.fc_var(result)
 
         return [mu, log_var]
