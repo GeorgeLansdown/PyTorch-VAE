@@ -111,7 +111,7 @@ class BetaVAE(BaseVAE):
         # of the latent Gaussian distribution
 
         mu = self.fc_mu(result)
-        print(self.fc_var.parmameters)
+        print(self.fc_var.parameters)
         log_var = self.fc_var(result)
 
         return [mu, log_var]
