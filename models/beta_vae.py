@@ -146,6 +146,7 @@ class BetaVAE(BaseVAE):
         self.num_iter += 1
         recons = args[0]
         input = args[1]
+        print((recons, input))
         mu = args[2]
         log_var = args[3]
         kld_weight = kwargs['M_N']  # Account for the minibatch samples from the dataset
