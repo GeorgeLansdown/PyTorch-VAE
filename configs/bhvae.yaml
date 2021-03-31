@@ -1,7 +1,7 @@
 model_params:
   name: 'BetaVAE'
   in_channels: 3
-  latent_dim: 8192
+  latent_dim: 4096
   loss_type: 'H'
   beta: 10.
 

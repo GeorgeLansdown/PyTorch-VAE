@@ -58,8 +58,11 @@ class BetaVAE(BaseVAE):
 
 
         self.fc_mu = nn.Linear(131072, latent_dim) #2048, 128
+        self.fc_mu.weight.data.fill_(0.0)
+        self.fc_mu.bias.data.full(0.0)
         self.fc_var = nn.Linear(131072, latent_dim)
-
+        self.fc_var.weight.data.fill_(0.0)
+        self.fc_var.bias.data.full(0.0)
         # Build Decoder
         modules = []
 
